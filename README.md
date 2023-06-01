@@ -1,7 +1,7 @@
 # bemp
 Bert Embedded Meaning Print
 
-Searth through the files on your drive based on their meaning, basically a semantic grep
+Search through the files on your drive based on their meaning, basically a semantic grep
 
 ```sh
 Usage: bemp [OPTIONS]
