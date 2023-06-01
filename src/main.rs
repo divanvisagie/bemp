@@ -27,7 +27,10 @@ struct Args {
     path: Option<String>,
 
     #[arg(short, long)]
-    sensitivity: Option<f32>
+    threshold: Option<f32>,
+
+    #[arg(short, long)]
+    show_score: bool
 }
 
 fn read_files_in_dir(directory: &Path) -> Vec<File> {
@@ -115,7 +118,6 @@ fn get_files_matching_query_with_precision(query: String, files: Vec<File>, prec
 
     let mut results = Vec::new();
     for (file, score) in scores {
-        println!("file: {}, score: {}, content: {}", file.path, score, file.content);
         if score > precision {
             results.push((file, score));
         }
@@ -124,24 +126,34 @@ fn get_files_matching_query_with_precision(query: String, files: Vec<File>, prec
     results
 }
 
-fn search_directory(path: &Path, query: String, precision: f32) {
+fn search_directory(path: &Path, query: String, precision: f32, show: bool) {
     let files = get_files_with_embeddings_in_dir(path);
     let scored = get_files_matching_query_with_precision(query, files, precision);
     for (file, score) in scored {
-        println!("{}", file.content);
+        if show {
+            println!("{}\t{}", file.path, score);
+        } else {
+            println!("{}", file.path);
+        }
     }
 }
 
 fn main() {
     let args = Args::parse();
     let mut query = String::new();
+    let mut threshold = 0.5;
+
+    if let Some(t) = args.threshold {
+        threshold = t;
+    }
+
     if let Some(q) = args.query {
         query = q;
     }
 
     if let Some(p) = args.path {
         let scan_path = Path::new(&p);
-        search_directory(scan_path, query, 0.5);
+        search_directory(scan_path, query, threshold, args.show_score);
     }
 }
 
