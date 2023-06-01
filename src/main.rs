@@ -40,14 +40,38 @@ fn read_files_in_dir(directory: &Path) -> Vec<File> {
             let entry = entry.unwrap();
             let path = entry.path();
 
-            let mut text = String::new();
-            let mut file = fs::File::open(&path).unwrap();
-            file.read_to_string(&mut text).unwrap();
-            texts.push(File {
-                path: path.to_str().unwrap().to_string(),
-                content: text,
-                embedding: Vec::new()
-            });
+            //ignore dotfiles
+            if path.to_str().unwrap().starts_with(".") {
+                continue;
+            }
+
+            if path.is_dir() {
+                let mut sub_texts = read_files_in_dir(&path);
+                texts.append(&mut sub_texts);
+                continue;
+            }
+
+            match fs::File::open(&path) {
+                Ok(mut file) => {
+                    let mut text = String::new();
+                    match file.read_to_string(&mut text) {
+                        Ok(_) => {
+                            texts.push(File {
+                                path: path.to_str().unwrap().to_string(),
+                                content: text,
+                                embedding: Vec::new()
+                            });
+                        },
+                        Err(e) => {
+                            println!("Error reading file {:?} {:?}", path, e);
+                            continue;
+                        }
+                    }
+                },
+                Err(e) => {
+                    println!("Error processing files {:?}", e)
+                }
+            };
         }
     }
     texts
