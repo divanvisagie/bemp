@@ -39,7 +39,7 @@ fn get_files_matching_query_with_precision(query: String, files: Vec<File>, prec
         scores.push((file, score));
     }
 
-    // scores.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
+    scores.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
 
     let mut results = Vec::new();
     for (file, score) in scores {
