@@ -7,11 +7,12 @@ Search through the files on your drive based on their meaning, basically a seman
 Usage: bemp [OPTIONS]
 
 Options:
-  -q, --query <QUERY>              What you want to match against
-  -p, --path <PATH>                Perform search in folder
-  -s, --sensitivity <SENSITIVITY>
-  -h, --help                       Print help
-  -V, --version                    Print version
+  -q, --query <QUERY>          What you want to match against
+  -p, --path <PATH>            Perform search in folder
+  -t, --threshold <THRESHOLD>
+  -s, --show-score
+  -h, --help                   Print help
+  -V, --version                Print version
 ```
 
 ## Installation
