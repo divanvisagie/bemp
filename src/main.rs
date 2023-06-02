@@ -184,9 +184,16 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+   
     #[test]
-    fn test_embedding() {
+    fn test_own_directory() {
+        let scan_path = Path::new(&p);
+        let query = "cargo config".to_string();
+        search_directory(scan_path, query, 0.8,false);
+    }
+
+    #[test]
+    fn test_embedding_match_with_mocked_files() {
         //create some mock files
         let files = vec![
             File {
