@@ -9,9 +9,8 @@ edition = "2021"
 libc = "0.2"
 clap = { version = "4.2.7", features = ["derive"] }
 clippy = "0.0.302"
-rust-bert = "0.20.0"
+rust-bert = { version = "0.21.0", features = ["download-libtorch"] }
 tokio = { version = "1.17.0", features = ["full"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-tch = "0.10.3"
 md5 = "0.7.0"
